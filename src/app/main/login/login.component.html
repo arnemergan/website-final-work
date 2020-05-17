@@ -1,0 +1,19 @@
+<mat-card class="card">
+    <mat-card-title>
+      Login
+    </mat-card-title>
+    <mat-card-content >
+        <form class="example-form" (ngSubmit)="onSubmit()" #loginData="ngForm">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Username</mat-label>
+                <input matInput type="text" id="username" [(ngModel)]="model.username" name="username">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" id="password" [(ngModel)]="model.password" name="password">
+              </mat-form-field>
+              <mat-error *ngIf="loginError">{{getErrorMessage()}}</mat-error>
+              <button mat-button class="btn">Login</button>
+        </form>
+    </mat-card-content>
+</mat-card>

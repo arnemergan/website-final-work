@@ -20,6 +20,10 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { InvoiceService } from './api/invoice.service';
+import { StatisticsService } from './api/statistics.service';
+import { AuthService } from './api/auth.service';
+import { AuthInterceptor, authInterceptorProviders } from './api/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +45,12 @@ import {
     ThemeModule.forRoot(),
   ],
   bootstrap: [AppComponent],
+  providers: [
+    AuthService,
+    InvoiceService,
+    StatisticsService,
+    authInterceptorProviders
+  ],
 })
 export class AppModule {
 }

@@ -1,0 +1,58 @@
+@import '../../../../variables/colors';
+
+.data {
+  margin-top: 70px;
+}
+
+.dataw {
+  margin-top: 100px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  overflow-y: auto;
+}
+
+.warning{
+  color: #856404;
+  background-color: #fff3cd;
+  padding: 20px;
+  margin: 25px;
+  border-radius: 10px;
+  border-color: #ffeeba;
+}
+
+.close{
+  margin: 10px;
+}
+
+.btn{
+  background-color: $primary;
+  margin: 7%;
+  width: 86%;
+}
+
+mat-form-field{
+  margin: 5px;
+}
+
+mat-sidenav{
+  width: 700px;
+  padding-top: 70px;
+}
+
+mat-expansion-panel{
+  margin:10px;
+}
+
+.invoice{
+  height: 86vh;
+}
+
+mat-chip {
+  max-width: 300px;
+}

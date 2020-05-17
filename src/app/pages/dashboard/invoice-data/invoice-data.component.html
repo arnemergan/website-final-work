@@ -1,0 +1,162 @@
+<div class="data" *ngIf="model.image != null">
+  <img src="data:image/jpeg;base64,{{model.image.data}}" class="invoice"/>
+</div>
+<div class="dataw" *ngIf="model.image == null">
+    <span class="warning">No image could be loaded!</span>
+</div>
+<mat-sidenav #sidenav mode="push" position="end" opened>
+  <mat-accordion>
+    <mat-expansion-panel opened>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Metadata
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
+        <mat-chip>Created on: {{ model.createdDate  | date: 'dd-MM-yyyy HH:mm'  }}</mat-chip>
+        <mat-chip>Modified on: {{ model.lastModifiedDate | date: 'dd-MM-yyyy HH:mm' }}</mat-chip>
+        <mat-chip>Status: {{ model.status  }}</mat-chip>
+      </mat-chip-list>
+    </mat-expansion-panel>
+    <form class="example-form" (ngSubmit)="onSubmit()" #invoiceData="ngForm">
+    <mat-expansion-panel opened>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Invoice
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-form-field appearance="outline">
+        <mat-label>number</mat-label>
+          <div class="form-group">
+              <input matInput type="text" required class="form-control" id="number" [(ngModel)]="model.number" name="number">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>invoice date</mat-label>
+          <div class="form-group">
+              <input matInput type="text" required class="form-control" id="invoiceDate" [(ngModel)]="model.invoiceDate" name="invoiceDate">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>due date</mat-label>
+          <div class="form-group">
+              <input matInput type="text" required class="form-control" id="dueDate" [(ngModel)]="model.dueDate" name="dueDate">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Financial information
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-form-field appearance="outline">
+        <mat-label>currency</mat-label>
+          <div class="form-group">
+              <input matInput type="text"  required class="form-control" id="currency" [(ngModel)]="model.currency" name="currency">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>vat</mat-label>
+          <div class="form-group">
+              <input matInput type="text" required class="form-control" id="tax" [(ngModel)]="model.vat" name="vat">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>total</mat-label>
+          <div class="form-group">
+              <input matInput type="number" required class="form-control" id="total" [(ngModel)]="model.total" name="total">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>subtotal</mat-label>
+          <div class="form-group">
+              <input matInput type="number" required class="form-control" id="subtotal" [(ngModel)]="model.subtotal" name="subtotal">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>discount</mat-label>
+          <div class="form-group">
+              <input matInput type="text" required class="form-control" id="discount" [(ngModel)]="model.discount" name="discount">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+      <h1 class="mat-h1">Lines</h1>
+      <div *ngFor="let line of model.lines">
+        <mat-form-field appearance="outline">
+          <mat-label>description</mat-label>
+            <div class="form-group">
+                <input matInput type="text" required class="form-control" [id]="line.id" [(ngModel)]="line.description" name="description">
+            </div>
+            <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>unit price</mat-label>
+            <div class="form-group">
+                <input matInput type="text" required class="form-control" [id]="line.id" [(ngModel)]="line.unitPrice" name="unitPrice">
+            </div>
+            <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>amount</mat-label>
+            <div class="form-group">
+                <input matInput type="text" required class="form-control" [id]="line.id" [(ngModel)]="line.amount" name="amount">
+            </div>
+            <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Vendor information
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-form-field appearance="outline">
+        <mat-label>name</mat-label>
+          <div class="form-group">
+              <input matInput type="text" required class="form-control" id="vendorName" [(ngModel)]="model.vendor.name" name="vendorName">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>address</mat-label>
+          <div class="form-group">
+              <input matInput type="text" required class="form-control" id="vendorAddress" [(ngModel)]="model.vendor.address" name="vendorAddress">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>phonenumber</mat-label>
+          <div class="form-group">
+              <input matInput type="text" required class="form-control" id="vendorPhone" [(ngModel)]="model.vendor.phone" name="vendorPhone">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>email</mat-label>
+          <div class="form-group">
+              <input matInput type="text" email required #email="ngModel" class="form-control" id="vendorEmail" [(ngModel)]="model.vendor.email" name="vendorEmail">
+          </div>
+          <mat-error *ngIf="email.invalid">{{getErrorMessageEmail()}}</mat-error>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+        </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>vatnumber</mat-label>
+          <div class="form-group">
+              <input matInput type="text" required class="form-control" id="vatNumber" [(ngModel)]="model.vendor.vatNumber" name="vatNumber">
+          </div>
+          <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
+      </mat-form-field>
+    </mat-expansion-panel>
+    <button mat-button class="btn" [disabled]="!invoiceData.form.valid">save</button>
+    </form>
+  </mat-accordion>
+</mat-sidenav>

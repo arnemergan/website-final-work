@@ -1,0 +1,28 @@
+<mat-accordion>
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        User information
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+</mat-expansion-panel>
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Tenant information
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-list role="list" *ngIf="tenant">
+        <mat-list-item role="listitem">name: {{ tenant.name }}</mat-list-item>
+        <mat-list-item role="listitem">country: {{ tenant.country }}</mat-list-item>
+        <mat-list-item role="listitem">Max employees: {{ tenant.maxEmployees }}</mat-list-item>
+      </mat-list>
+</mat-expansion-panel>
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Connect to ftp
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+</mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,15 @@
+<mat-card class="dashboard-card-content">
+    <ngx-dropzone (change)="onSelect($event)" [multiple]="true" class="dropzone" [accept]="'image/*'">
+        <ngx-dropzone-label>
+            <mat-icon aria-hidden="false" aria-label="download icon" *ngIf="download">cloud_download</mat-icon>
+            <mat-card-title>Drag and drop your invioce here</mat-card-title>
+        </ngx-dropzone-label>
+        <ngx-dropzone-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+          </ngx-dropzone-preview>
+    </ngx-dropzone>
+    <mat-card-content class="content">
+        <button mat-button class="btn" (click)="upload()">Upload</button>
+    </mat-card-content>
+    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+</mat-card>

@@ -33,11 +33,14 @@ import {
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  GeneralLayoutComponent,
 } from './layouts';
 import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import { GeneralHeaderComponent } from './components/general-header/general-header.component';
+import { MatButtonModule } from '@angular/material/button';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -52,15 +55,18 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
+  MatButtonModule
 ];
 const COMPONENTS = [
   HeaderComponent,
+  GeneralHeaderComponent,
   FooterComponent,
   SearchInputComponent,
   TinyMCEComponent,
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  GeneralLayoutComponent
 ];
 const PIPES = [
   CapitalizePipe,

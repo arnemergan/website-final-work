@@ -1,0 +1,16 @@
+<div class="header-container">
+  <div class="logo-container">
+    <a class="sidebar-toggle" (click)="goToHome()">
+      <nb-icon icon="home-outline"></nb-icon>
+    </a>
+    <a class="logo" (click)="goToHome()">infact</a>
+  </div>
+</div>
+<div class="header-container">
+  <button mat-button color="primary" (click)="goToLogin()">Login</button>
+  <button mat-button color="primary" (click)="goToRegister()">register</button>
+  <button mat-button color="primary" (click)="goToDashboard()" *ngIf="auth.isLoggedIn()">
+    <nb-icon icon="keypad-outline"></nb-icon>
+     Dashboard
+  </button>
+</div>

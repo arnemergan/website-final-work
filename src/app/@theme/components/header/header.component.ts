@@ -5,6 +5,8 @@ import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { AuthService } from '../../../api/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -45,6 +47,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private themeService: NbThemeService,
               private userService: UserData,
               private layoutService: LayoutService,
+              private auth: AuthService,
+              private router: Router,
               private breakpointService: NbMediaBreakpointsService) {
   }
 
@@ -90,5 +94,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navigateHome() {
     this.menuService.navigateHome();
     return false;
+  }
+
+  logout(){
+    this.auth.removeToken();
+    this.router.navigate(["/main/login"]);
   }
 }

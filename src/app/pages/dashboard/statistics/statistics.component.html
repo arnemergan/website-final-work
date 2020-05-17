@@ -1,0 +1,82 @@
+<mat-grid-list cols="8" rowHeight="20vh" class="wrapper"> 
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+        <mat-card class="dashboard-card total">
+            <mat-card-title><mat-icon>cloud</mat-icon></mat-card-title>
+            <mat-card-content>
+                <span><b>{{ model.count}}</b> invoices in total</span>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+        <mat-card class="dashboard-card total">
+            <mat-card-title><mat-icon>money</mat-icon></mat-card-title>
+            <mat-card-content>
+                <span><b>{{ model.totalPrice }}€ </b> overal total cost</span>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+        <mat-card class="dashboard-card total">
+            <mat-card-title><mat-icon>money</mat-icon></mat-card-title>
+            <mat-card-content>
+                <span><b>{{ model.currentMonth.totalPrice }}€ </b> total cost this month</span>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="8" [rowspan]="3">
+        <mat-card class="dashboard-card overview">
+            <mat-card-title>Cash flow overview</mat-card-title>
+            <mat-card-content class="content">
+                <div mat-card class="content__card">
+                    <h3 class="currentdesc"> {{ model.currentMonth.totalPrice }}€ <span class="current">Total costs this month</span></h3>
+                    <div *ngIf="procent2 > 0"><span class="red"><mat-icon>trending_up</mat-icon>{{procent2}}% more costs </span>in comparison to last month</div>
+                    <div *ngIf="procent2 <= 0"><span class="green"><mat-icon>trending_down</mat-icon>{{procent2}}% less costs</span> in comparison to last month</div>
+                    <button mat-button class="btn">view details</button>
+                </div>
+                <div mat-card class="content__card">
+                    <ngx-charts-line-chart
+                    [view]="view"
+                    [scheme]="colorScheme"
+                    [legend]="legend2"
+                    [showXAxisLabel]="showXAxisLabel2"
+                    [showYAxisLabel]="showYAxisLabel2"
+                    [xAxis]="xAxis2"
+                    [yAxis]="yAxis2"
+                    [xAxisLabel]="xAxisLabel2"
+                    [yAxisLabel]="yAxisLabel2"
+                    [timeline]="timeline2"
+                    [results]="graph2">
+                </ngx-charts-line-chart>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="8" [rowspan]="3">
+        <mat-card class="dashboard-card overview">
+            <mat-card-title>Invoices overview</mat-card-title>
+            <mat-card-content class="content">
+                <div mat-card class="content__card">
+                    <h3 class="currentdesc"> {{ model.currentMonth.total }} <span class="current"> Invoices this month</span></h3>
+                    <div *ngIf="procent > 0"><span class="red"><mat-icon>trending_up</mat-icon>{{procent}}% more invoices </span>in comparison to last month</div>
+                    <div *ngIf="procent <= 0"><span class="green"><mat-icon>trending_down</mat-icon>{{procent}}% less invoices</span> in comparison to last month</div>
+                    <button mat-button class="btn">view details</button>
+                </div>
+                <div mat-card class="content__card">
+                    <ngx-charts-line-chart
+                    [view]="view"
+                    [scheme]="colorScheme"
+                    [legend]="legend"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxis]="xAxis"
+                    [yAxis]="yAxis"
+                    [xAxisLabel]="xAxisLabel"
+                    [yAxisLabel]="yAxisLabel"
+                    [timeline]="timeline"
+                    [results]="graph">
+                </ngx-charts-line-chart>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>

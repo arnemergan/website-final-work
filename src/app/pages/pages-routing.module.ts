@@ -5,6 +5,11 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { InvoicesComponent } from './dashboard/invoices/invoices.component';
+import { StatisticsComponent } from './dashboard/statistics/statistics.component';
+import { UploadInvoiceComponent } from './dashboard/upload-invoice/upload-invoice.component';
+import { InvoiceDataComponent } from './dashboard/invoice-data/invoice-data.component';
+import { SettingsComponent } from './dashboard/settings/settings.component';
 
 const routes: Routes = [{
   path: '',
@@ -17,6 +22,26 @@ const routes: Routes = [{
     {
       path: 'iot-dashboard',
       component: DashboardComponent,
+    },
+    {
+      path: 'invoices',
+      component: InvoicesComponent,
+    },
+    {
+      path: 'upload-invoice',
+      component: UploadInvoiceComponent,
+    },
+    {
+      path: 'statistics',
+      component: StatisticsComponent,
+    },
+    {
+      path: 'settings',
+      component: SettingsComponent,
+    },
+    {
+      path:"invoice/:id",
+      component: InvoiceDataComponent,
     },
     {
       path: 'layout',
