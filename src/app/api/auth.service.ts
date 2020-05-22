@@ -36,9 +36,9 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  public saveToken(token: string) {
+  public saveToken(UserTokenDTO: UserTokenDTO) {
     this.removeToken();
-    window.sessionStorage.setItem(this.key, token);
+    window.sessionStorage.setItem(this.key, UserTokenDTO.token.accessToken);
   }
 
   public getToken(): string {

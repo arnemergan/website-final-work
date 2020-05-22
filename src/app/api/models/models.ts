@@ -121,6 +121,7 @@ export interface Content {
     lastName: string;
     email: string;
     enabled: boolean;
+    authorities: Array<AuthorityUser>;
   }
 
   export interface Authority{
@@ -145,7 +146,7 @@ export interface Content {
   }
 
   export interface AuthorityUser{
-    
+    authority: String;
   }
 
   export interface UserInfoChanger {

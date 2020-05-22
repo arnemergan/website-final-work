@@ -19,7 +19,7 @@ export class TenantService {
     return this.http.post<Tenant>(this.actionUrl + "/register", tenant);
   }
 
-  update(tenant: TenantRegister): Observable<Tenant>{
+  update(tenant: Tenant): Observable<Tenant>{
     return this.http.post<Tenant>(this.actionUrl + "/update",tenant);
   }
 

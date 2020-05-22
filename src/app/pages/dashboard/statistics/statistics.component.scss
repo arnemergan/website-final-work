@@ -1,10 +1,5 @@
 @import '../../../../variables/colors';
 
-.wrapper{
-    margin-top: 70px;
-}
-
-
 .dashboard-card {
     position: absolute;
     top: 15px;
@@ -70,7 +65,6 @@
 .content{
     display: flex;
     flex-direction: row;
-    padding: 10px 30px 0px 30px;
     &__card{
         flex-direction: column;
         display: flex;
@@ -104,8 +98,6 @@
   
   .content{
     background-color: $secondary-light;
-    height: 100vh;
-    width: 100%;
   }
   
   .toolbar{

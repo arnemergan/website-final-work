@@ -3,6 +3,7 @@ import { Login, UserTokenDTO, TenantRegister, Tenant } from '../../api/models/mo
 import { AuthService } from '../../api/auth.service';
 import { Router } from '@angular/router';
 import { TenantService } from '../../api/tenant.service';
+import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'ngx-register',
@@ -13,7 +14,8 @@ export class RegisterComponent implements OnInit {
 
   registerError = false;
   model: TenantRegister;
-  
+  form: FormGroup;
+  required = new FormControl('',[Validators.required]);
   constructor(private tenant:TenantService,private router: Router) { }
 
   ngOnInit(): void {
@@ -30,19 +32,17 @@ export class RegisterComponent implements OnInit {
     this.registerError = false;
   }
 
-  onSubmit() { 
-    this.tenant.register(this.model).subscribe((tenant:Tenant) => {
+  onSubmit() {   
+   this.tenant.register(this.model).subscribe((tenant:Tenant) => {
       this.registerError = false;
       this.router.navigate(['/main/login']);
     }, error => {
       this.registerError = true;
-      console.log(error);
     });
   }
 
-  getErrorMessage() {
-    return this.registerError ? 'Register fields are not correct' : '';
-  }
-  
 
+  getErrorMessageRequired(){
+    return this.required.hasError('required') ? 'Not valid value' : '';
+  }
 }

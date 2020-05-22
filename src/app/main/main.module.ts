@@ -33,7 +33,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatListModule} from '@angular/material/list';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 
 @NgModule({
   declarations: [LoginComponent, ChangePasswordComponent, HomeComponent, RegisterComponent, MainComponent],
@@ -72,8 +72,8 @@ import { FormsModule } from '@angular/forms';
     MatGridListModule,
     LayoutModule,
     RouterModule,
+    MatButtonModule,
     FormsModule,
-    MatButtonModule
   ],
   providers: [
     AuthService,

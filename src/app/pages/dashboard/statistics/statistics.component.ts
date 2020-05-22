@@ -56,9 +56,9 @@ export class StatisticsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    /*this.statisticService.getStats().subscribe(
+    this.statisticService.getStats().subscribe(
       data => this.add(data)
-    );*/
+    );
   }
 
   add(data){

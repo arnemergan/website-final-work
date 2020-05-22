@@ -20,7 +20,7 @@ export class UserService {
     return this.http.put<UserAdmin>(this.actionUrl + "/",authority);
   }
 
-/*  delete(username: String): Observable<Tenant>{
-    return this.http.delete<Tenant>(this.actionUrl + "/delete", username);
-  }*/
+  delete(username: String): Observable<Tenant>{
+    return this.http.delete<Tenant>(this.actionUrl + "/delete/" + username);
+  }
 }

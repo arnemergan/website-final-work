@@ -1,8 +1,3 @@
-/**
- * @license
- * Copyright Akveo. All Rights Reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- */
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -24,6 +19,7 @@ import { InvoiceService } from './api/invoice.service';
 import { StatisticsService } from './api/statistics.service';
 import { AuthService } from './api/auth.service';
 import { AuthInterceptor, authInterceptorProviders } from './api/auth.interceptor';
+import { TokenInterceptorProvider } from './api/token.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,7 +38,7 @@ import { AuthInterceptor, authInterceptorProviders } from './api/auth.intercepto
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
-    ThemeModule.forRoot(),
+    ThemeModule.forRoot()
   ],
   bootstrap: [AppComponent],
   providers: [
