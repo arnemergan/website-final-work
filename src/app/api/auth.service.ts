@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class AuthService {
   private key = 'auth-token';
+  private refreshKey = 'refresh-token';
   private actionUrl = `${environment.baseApi}/authenticate`;
 
   constructor(private http: HttpClient,){}
@@ -24,28 +25,43 @@ export class AuthService {
   }
 
   refresh(): Observable<UserTokenDTO>{
-    return this.http.get<UserTokenDTO>(this.actionUrl + "/refresh");
+    return this.http.get<UserTokenDTO>(this.actionUrl + "/refresh/" + this.getRefreshToken());
   }
 
   update(userInfo: UserInfoChanger): Observable<User>{
     return this.http.post<User>(this.actionUrl + "/update",userInfo);
   }
 
-
   public isLoggedIn() : boolean {
     return !!this.getToken();
   }
 
-  public saveToken(UserTokenDTO: UserTokenDTO) {
+  public saveToken(userTokenDTO: UserTokenDTO) {
     this.removeToken();
-    window.sessionStorage.setItem(this.key, UserTokenDTO.token.accessToken);
+    if(userTokenDTO.token.refreshToken !== null){
+      this.removeRefreshToken();
+      this.saveRefreshToken(userTokenDTO);
+    }
+    window.sessionStorage.setItem(this.key, userTokenDTO.token.accessToken);
+  }
+
+  public saveRefreshToken(userTokenDTO: UserTokenDTO){
+    window.sessionStorage.setItem(this.refreshKey,userTokenDTO.token.refreshToken);
   }
 
   public getToken(): string {
     return sessionStorage.getItem(this.key);
   }
 
+  public getRefreshToken(): string {
+    return sessionStorage.getItem(this.refreshKey);
+  }
+
   public removeToken(): void {
+    window.sessionStorage.removeItem(this.key);
+  }
+
+  public removeRefreshToken(): void {
     window.sessionStorage.removeItem(this.key);
   }
 }

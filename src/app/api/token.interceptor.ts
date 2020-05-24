@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpErrorResponse, HttpEvent } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpErrorResponse, HttpEvent, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { AuthService } from './auth.service';
@@ -12,18 +12,18 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(private auth: AuthService, private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.auth.getToken(); 
-    return next.handle(req).pipe(
-      catchError(error => {
-        if (error.status === 401) {
-          this.auth.refresh().subscribe((userTokenDTO:UserTokenDTO) => {
-          this.auth.saveToken(userTokenDTO);
-         },error => {
-          this.auth.removeToken();
-         });
-        }
-        return throwError(error);
-   }));
+    return next.handle(req).pipe(catchError(err => {
+      if (err.status === 401) {
+          this.auth.refresh().subscribe((userTokenDTO:UserTokenDTO)=> {
+            this.auth.saveToken(userTokenDTO);
+          }, error => {
+            this.router.navigate(["/main/login"]);
+          });
+-          location.reload(true);
+      }
+      const error = err.error.message || err.statusText;
+      return throwError(error);
+    }))
   }
 }
 

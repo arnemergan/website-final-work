@@ -34,6 +34,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatListModule} from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import {MatRadioModule} from '@angular/material/radio';
+import { NgxStripeModule } from 'ngx-stripe';
 
 @NgModule({
   declarations: [LoginComponent, ChangePasswordComponent, HomeComponent, RegisterComponent, MainComponent],
@@ -74,6 +76,8 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
     RouterModule,
     MatButtonModule,
     FormsModule,
+    MatRadioModule,
+    NgxStripeModule.forRoot("pk_test_iZ43flSMlFzymYq0mMf6k9fR00YY98YxlW")
   ],
   providers: [
     AuthService,

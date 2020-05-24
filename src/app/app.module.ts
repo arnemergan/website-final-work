@@ -39,13 +39,14 @@ import { TokenInterceptorProvider } from './api/token.interceptor';
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot()
-  ],
+    ],
   bootstrap: [AppComponent],
   providers: [
     AuthService,
     InvoiceService,
     StatisticsService,
-    authInterceptorProviders
+    authInterceptorProviders,
+    TokenInterceptorProvider
   ],
 })
 export class AppModule {

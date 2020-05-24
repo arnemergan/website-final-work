@@ -16,7 +16,7 @@
               </mat-form-field>
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Firstname</mat-label>
-                <input matInput required type="text" id="Firstname" [(ngModel)]="model.firstName" name="Firstname">
+                <input matInput required type="text" id="Firstname" [(ngModel)]="model.firstName" name="first">
                 <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
               </mat-form-field>
               <mat-form-field appearance="outline" class="full-width">
@@ -39,7 +39,23 @@
                 <input matInput required type="text" id="country" [(ngModel)]="model.country" name="country">
                 <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
               </mat-form-field>
-              <button mat-button class="btn">Register</button>
+              <mat-label class="full-width">Card number</mat-label>
+              <br>
+              <br>
+              <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
+              <mat-label class="full-width">Choose plan</mat-label>
+              <br>
+              <br>
+              <mat-radio-group class="full-width"
+                aria-labelledby="example-radio-group-label"
+                [(ngModel)]="choosePay"
+                name="radio">
+                <mat-radio-button class="example-radio-button" *ngFor="let pay of payments" [value]="pay">
+                  {{pay}}
+                </mat-radio-button>
+              </mat-radio-group>
+              <br>
+              <button mat-button class="btn">Pay {{ choosePay }}</button>
         </form>
     </mat-card-content>
 </mat-card>

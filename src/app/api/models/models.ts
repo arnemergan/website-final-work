@@ -96,6 +96,7 @@ export interface Content {
   export interface TokenDto {
     accessToken: string;
     expiresIn: number;
+    refreshToken: string;
   }
 
   export interface Tenant {
@@ -113,6 +114,10 @@ export interface Content {
     lastName: string;
     email: string;
     password: string;
+    customerId?: string;
+    subscriptionId?: string;
+    plan?: string;
+    stripeToken?: string;
   }
 
   export interface UserAdmin {
