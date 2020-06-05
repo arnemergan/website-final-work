@@ -1,7 +1,6 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AuthGuard } from './auth.guard';
-import { GeneralGuard } from './general.guard';
 
 export const routes: Routes = [
   {
@@ -24,7 +23,7 @@ const config: ExtraOptions = {
 @NgModule({
   imports: [RouterModule.forRoot(routes, config)],
   exports: [RouterModule],
-  providers: [AuthGuard,GeneralGuard],
+  providers: [AuthGuard],
 })
 export class AppRoutingModule {
 }
