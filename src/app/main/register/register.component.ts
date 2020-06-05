@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TenantService } from '../../api/tenant.service';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ElementOptions, ElementsOptions, StripeService, StripeCardComponent } from 'ngx-stripe';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'ngx-register',
@@ -37,8 +38,10 @@ export class RegisterComponent implements OnInit {
   elementsOptions: ElementsOptions = {
     locale: 'en'
   };
-  constructor(private tenant:TenantService,private router: Router,private stripeService:StripeService) { }
+
+  constructor(private tenant:TenantService,private router: Router,private stripeService:StripeService,private _snackBar:MatSnackBar) { }
   ngOnInit(): void {
+    history.state.data !== undefined ? this.choosePay = history.state.data : this.choosePay = '10';
     this.model = {
       maxEmployees:10,
       email:'',
@@ -58,11 +61,13 @@ export class RegisterComponent implements OnInit {
     if (result.token) {
       this.model.stripeToken = result.token.id;
       this.model.plan = this.choosePay === '15' ? "plan_HKZq3uJ4e3ghvO":"plan_H5G398DbnwEDy0";
-      this.model.maxEmployees = this.choosePay === '15' ? 15: 10;
+      this.model.maxEmployees = this.choosePay === '15' ? 25: 10;
       this.tenant.register(this.model).subscribe((tenant:Tenant) => {
         this.registerError = false;
+        this.openSnackBar("Tenant created.","ok");
         this.router.navigate(['/main/login']);
       }, error => {
+        this.openSnackBar(error,"ok");
         this.registerError = true;
       });
     } else if (result.error) {
@@ -74,5 +79,11 @@ export class RegisterComponent implements OnInit {
 
   getErrorMessageRequired(){
     return this.required.hasError('required') ? 'Not valid value' : '';
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

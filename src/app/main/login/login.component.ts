@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit {
   onSubmit() { 
     this.auth.login(this.model).subscribe((user:UserTokenDTO) => {
       this.loginError = false;
-      this.auth.saveToken(user);
       this.router.navigate(['/pages/dashboard']);
     }, error => {
       this.loginError = true;

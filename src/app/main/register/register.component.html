@@ -4,37 +4,49 @@
     </mat-card-title>
     <mat-card-content >
         <form class="example-form" (ngSubmit)="onSubmit()" #loginData="ngForm">
+            <mat-label class="full-width">Choose plan</mat-label>
+            <br>
+            <br>
+            <mat-radio-group class="full-width"
+              aria-labelledby="example-radio-group-label"
+              [(ngModel)]="choosePay"
+              name="radio">
+              <mat-radio-button class="example-radio-button" *ngFor="let pay of payments" [value]="pay">
+                {{pay}}
+              </mat-radio-button>
+            </mat-radio-group>
+            <br>
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Username</mat-label>
                 <input matInput required  type="text" id="username" [(ngModel)]="model.username" name="username">
                 <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
               </mat-form-field>
-              <mat-form-field appearance="outline" class="full-width">
+              <mat-form-field appearance="outline" class="half-width">
                 <mat-label>Password</mat-label>
                 <input matInput required type="password" id="password" [(ngModel)]="model.password" name="password">
                 <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
               </mat-form-field>
-              <mat-form-field appearance="outline" class="full-width">
+              <mat-form-field appearance="outline" class="half-width">
                 <mat-label>Firstname</mat-label>
                 <input matInput required type="text" id="Firstname" [(ngModel)]="model.firstName" name="first">
                 <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
               </mat-form-field>
-              <mat-form-field appearance="outline" class="full-width">
+              <mat-form-field appearance="outline" class="half-width">
                 <mat-label>Lastname</mat-label>
                 <input matInput required type="text" id="lastname" [(ngModel)]="model.lastName" name="lastname">
                 <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
               </mat-form-field>
-              <mat-form-field appearance="outline" class="full-width">
+              <mat-form-field appearance="outline" class="half-width">
                 <mat-label>Email</mat-label>
                 <input matInput required type="email" id="email" [(ngModel)]="model.email" name="email">
                 <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
               </mat-form-field>
-              <mat-form-field appearance="outline" class="full-width">
+              <mat-form-field appearance="outline" class="half-width">
                 <mat-label>Tenant name</mat-label>
                 <input matInput required type="text" id="name" [(ngModel)]="model.name" name="name">
                 <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
               </mat-form-field>
-              <mat-form-field appearance="outline" class="full-width">
+              <mat-form-field appearance="outline" class="half-width">
                 <mat-label>Tenant country</mat-label>
                 <input matInput required type="text" id="country" [(ngModel)]="model.country" name="country">
                 <mat-error *ngIf="required.invalid">{{getErrorMessageRequired()}}</mat-error>
@@ -43,19 +55,8 @@
               <br>
               <br>
               <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
-              <mat-label class="full-width">Choose plan</mat-label>
               <br>
-              <br>
-              <mat-radio-group class="full-width"
-                aria-labelledby="example-radio-group-label"
-                [(ngModel)]="choosePay"
-                name="radio">
-                <mat-radio-button class="example-radio-button" *ngFor="let pay of payments" [value]="pay">
-                  {{pay}}
-                </mat-radio-button>
-              </mat-radio-group>
-              <br>
-              <button mat-button class="btn">Pay {{ choosePay }}</button>
+              <button mat-raised-button color="primary" class="btn">Pay {{ choosePay }}</button>
         </form>
     </mat-card-content>
 </mat-card>

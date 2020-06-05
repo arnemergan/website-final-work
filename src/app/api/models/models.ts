@@ -14,8 +14,7 @@ export interface Content {
   export interface Invoice {
     id: string;
     number: string;
-    status: string;
-    errors: String[];
+    done: boolean;
     createdDate:Date;
     lastModifiedDate:Date;
     dueDate: string;
@@ -24,10 +23,12 @@ export interface Content {
     discount: number;
     total: number;
     currency: string;
-    image: Image;
+    filename: string;
     vendor: Vendor;
     lines: Line[];
-    vat: number;
+    vatNumber: number;
+    category: Category;
+    categoryName?: string;
   }
 
   export interface Image {
@@ -48,7 +49,6 @@ export interface Content {
     description: string;
     unitPrice: number;
     quantity: number;
-    vat: number;
     amount: number;
   }
   export interface Pageable {
@@ -91,6 +91,7 @@ export interface Content {
     email: string;
     enabled: boolean;
     token: TokenDto;
+    authorities: Array<AuthorityUser>;
   }
 
   export interface TokenDto {
@@ -103,6 +104,8 @@ export interface Content {
     name: string;
     country: string;
     maxEmployees: number;
+    customerId?: string;
+    subscriptionId?: string;
   }
 
   export interface TenantRegister {
@@ -151,7 +154,7 @@ export interface Content {
   }
 
   export interface AuthorityUser{
-    authority: String;
+    authority: string;
   }
 
   export interface UserInfoChanger {
@@ -168,5 +171,20 @@ export interface Content {
     lastName: string;
     email: string;
     password: string;
-    authorities: Array<AuthorityUser>;
+  }
+
+  export interface Category {
+    id: string;
+    name: string;
+    deletable: boolean;
+  }
+
+  export interface registereduser {
+    username: string;
+    token:string;
+  }
+
+  export interface passwordChanger {
+    oldPassword:string;
+    newPassword:string;
   }

@@ -2,10 +2,29 @@
   <mat-card-title>
     Invoices
   </mat-card-title>
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+        <mat-label>Category</mat-label>
+        <mat-select [(value)]="selectedCategory">
+            <mat-option *ngFor="let option of options" [value]="option.name" (click)="changedCategory(option.name)">
+            {{option.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" *ngIf="visibleForAdmin">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" [(ngModel)]="username" name="Username"/>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="changedUsername()">Search user</button>
+    <button mat-raised-button color="secondary" style="float:right;" (click)="changeAll()">Get all</button>
+  </form>
   <mat-card-content *ngIf="isLoadingResults">
     <mat-spinner></mat-spinner>
   </mat-card-content>
-  <mat-card-content *ngIf="!isLoadingResults">
+  <mat-card-content *ngIf="!isLoadingResults && dataSource.data.length == 0">
+    <h2>No invoices found</h2>
+  </mat-card-content>
+  <mat-card-content *ngIf="!isLoadingResults && dataSource.data.length !== 0">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="createdDate">
         <th mat-header-cell *matHeaderCellDef> created on</th>
@@ -32,12 +51,13 @@
         <td mat-cell *matCellDef="let element"> {{element.total}} </td>
       </ng-container>
     
-      <ng-container matColumnDef="status">
+      <ng-container matColumnDef="done">
         <th mat-header-cell *matHeaderCellDef> status </th>
         <mat-icon aria-hidden="false" aria-label="Example home icon" class="done">done</mat-icon>
         <td mat-cell *matCellDef="let element">
           <mat-chip-list>
-            <mat-chip class="chip" selected>{{element.status}}</mat-chip>
+            <mat-chip class="chip" selected *ngIf="element.done">done</mat-chip>
+            <mat-chip selected *ngIf="!element.done">todo</mat-chip>
           </mat-chip-list>
         </td>
       </ng-container>
@@ -47,7 +67,9 @@
         <td mat-cell *matCellDef="let element"> 
           <button mat-button [matMenuTriggerFor]="menu"><mat-icon aria-hidden="false" aria-label="Example home icon">more_vert</mat-icon></button>
           <mat-menu #menu="matMenu">
-            <a mat-menu-item (click)="toDetail(element.id)">edit</a>
+            <button mat-menu-item (click)="toDetail(element.id)" *ngIf="visibleForEdit && !element.done">edit</button>
+            <button mat-menu-item *ngIf="visibleForEdit && !element.done" (click)="approve(element.id,true)">Approve</button>
+            <button mat-menu-item *ngIf="visibleForEdit && element.done" (click)="approve(element.id,false)">Decline</button>
           </mat-menu>
         </td>
       </ng-container>

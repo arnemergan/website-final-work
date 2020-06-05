@@ -10,17 +10,18 @@ import { environment } from './../../environments/environment'
 })
 export class StatisticsService {
   private actionUrl = `${environment.baseApi}/statistics`;
-  private token: String;
 
   constructor(private http: HttpClient,private auth: AuthService) { }
 
-
-  setToken(token:string){
-    this.token = token;
-  }
-
-
   getStats(): Observable<Statistics>{
     return this.http.get<Statistics>(this.actionUrl);
+  }
+
+  getStatsOnCategory(name): Observable<Statistics>{
+    return this.http.get<Statistics>(this.actionUrl + "/category?name=" + name);
+  }
+
+  getStatsOnUsername(username): Observable<Statistics>{
+    return this.http.get<Statistics>(this.actionUrl + "/user?username=" + username);
   }
 }

@@ -13,7 +13,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/upload-invoice',
   },
   {
-    title: 'Invoices',
+    title: 'Invoices board',
     icon: 'archive-outline',
     link: '/pages/invoices',
   },

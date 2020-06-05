@@ -56,3 +56,13 @@ mat-expansion-panel{
 mat-chip {
   max-width: 300px;
 }
+
+.invoice-data{
+  mat-form-field {
+    width: 30%;
+  }
+}
+
+mat-form-field {
+  width: 20%;
+}

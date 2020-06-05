@@ -1,3 +1,19 @@
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+        <mat-label>Category</mat-label>
+        <mat-select [(value)]="selectedCategory">
+            <mat-option *ngFor="let option of options" [value]="option.name" (click)="changedCategory(option.name)">
+            {{option.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" *ngIf="visibleForAdmin">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" [(ngModel)]="username" name="Username"/>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="changedUsername()">Search user</button>
+    <button mat-raised-button color="secondary" style="float:right;" (click)="changeAll()">Get all</button>
+  </form>
 <mat-grid-list cols="8" rowHeight="20vh" class="wrapper"> 
     <mat-grid-tile [colspan]="2" [rowspan]="1">
         <mat-card class="dashboard-card total">

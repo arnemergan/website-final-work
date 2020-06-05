@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Statistics } from './../../../api/models/models';
+import { Statistics, Category } from './../../../api/models/models';
 import { StatisticsService } from './../../../api/statistics.service';
 import { AuthService } from './../../../api/auth.service';
 import { Router } from '@angular/router';
+import { CategoryService } from '../../../api/category.service';
 
 @Component({
   selector: 'app-statistics',
@@ -16,7 +17,6 @@ export class StatisticsComponent implements OnInit {
   
   view: any[] = [700, 300];
 
-  // options invoices
   legend: boolean = false;
   showLabels: boolean = false;
   animations: boolean = true;
@@ -28,7 +28,6 @@ export class StatisticsComponent implements OnInit {
   yAxisLabel: string = 'Quantity';
   timeline: boolean = true;
 
-  // options invoices
   legend2: boolean = false;
   showLabels2: boolean = false;
   animations2: boolean = true;
@@ -51,20 +50,38 @@ export class StatisticsComponent implements OnInit {
   months =["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
   model: Statistics;
+  selectedCategory = 'default';
+  username = '';
 
-  constructor(private router: Router,private statisticService:StatisticsService,public auth: AuthService) {
+  options: Category[] = [];
+  visibleForAdmin: boolean = false;
+
+  constructor(private router: Router,private statisticService:StatisticsService,public auth: AuthService, public categoryService: CategoryService) {
    }
 
   ngOnInit(): void {
-    this.statisticService.getStats().subscribe(
-      data => this.add(data)
-    );
+    this.visibleForAdmin = this.auth.hasPermission({authority: "ROLE_ADMIN"});
+    this.getStats();
+    this.getCategories();
+  }
+
+  changedCategory(value) :void{
+    this.getStatsOnCategory(value);
+  }
+
+  changedUsername() :void{
+    this.getStatsOnUserName(this.username);
+  }
+
+  
+  changeAll(): void {
+    this.getStats();
   }
 
   add(data){
     this.model = data;
-    this.procent = ((this.model.currentMonth.total - this.model.beforeCurrentMonth1.total)/this.model.beforeCurrentMonth1.total)*100;
-    this.procent2 = ((this.model.currentMonth.totalPrice - this.model.beforeCurrentMonth1.totalPrice)/this.model.beforeCurrentMonth1.totalPrice)*100;
+    this.procent = Math.round(((this.model.currentMonth.total - this.model.beforeCurrentMonth1.total)/this.model.beforeCurrentMonth1.total)*100);
+    this.procent2 = Math.round(((this.model.currentMonth.totalPrice - this.model.beforeCurrentMonth1.totalPrice)/this.model.beforeCurrentMonth1.totalPrice)*100);
     this.graph2 = [
       {
         "name": "Costs",
@@ -110,5 +127,29 @@ export class StatisticsComponent implements OnInit {
 
   toHome(){
     this.router.navigate(['dashboard']);
+  }
+
+  private getStats(){
+    this.statisticService.getStats().subscribe(
+      data => this.add(data)
+    );
+  }
+
+  private getStatsOnCategory(category){
+    this.statisticService.getStatsOnCategory(category).subscribe(
+      data => this.add(data)
+    );
+  }
+
+  private getStatsOnUserName(username){
+    this.statisticService.getStatsOnUsername(username).subscribe(
+      data => this.add(data)
+    );
+  }
+
+  private getCategories(){
+    this.categoryService.getAll().subscribe((categories:Array<Category>) => {
+      this.options = categories;
+    });
   }
 }

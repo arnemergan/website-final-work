@@ -43,6 +43,8 @@ import { RouterModule } from '@angular/router';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { SettingsComponent } from './settings/settings.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -90,7 +92,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatGridListModule,
     LayoutModule,
     RouterModule,
-    MatDialogModule
+    MatDialogModule,
+    MatAutocompleteModule,
+    MatSelectModule
   ],
   declarations: [
     DashboardComponent,

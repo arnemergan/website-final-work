@@ -13,7 +13,8 @@
                 <input matInput type="password" id="password" [(ngModel)]="model.password" name="password">
               </mat-form-field>
               <mat-error *ngIf="loginError">{{getErrorMessage()}}</mat-error>
-              <button mat-button class="btn">Login</button>
+              <button mat-raised-button color="primary" class="btn">Login</button>
         </form>
     </mat-card-content>
+    <a href="/main/reset-password">First time</a>
 </mat-card>

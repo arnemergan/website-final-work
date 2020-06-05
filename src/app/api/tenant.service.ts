@@ -23,7 +23,7 @@ export class TenantService {
     return this.http.post<Tenant>(this.actionUrl + "/update",tenant);
   }
 
-  delete(): Observable<Tenant>{
-    return this.http.delete<Tenant>(this.actionUrl + "/delete");
+  cancel(id: string): Observable<Object>{
+    return this.http.post<Tenant>(this.actionUrl + "/cancel/" + id, null);
   }
 }

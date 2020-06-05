@@ -1,142 +1,166 @@
-<mat-accordion>
-<mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Personal information
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-      <form class="example-form" (ngSubmit)="editProfile()" #editData="ngForm" *ngIf="user">
-        <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Username</mat-label>
-        <input matInput type="text" id="username" [(ngModel)]="user.username" name="username">
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Firstname</mat-label>
-        <input matInput type="text" id="firstname" [(ngModel)]="user.firstName" name="firstname">
-      </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Lastname</mat-label>
-        <input matInput type="text" id="lastname" [(ngModel)]="user.lastName" name="lastname">
-      </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput type="text" id="email" [(ngModel)]="user.email" name="email">
-      </mat-form-field>
-      <mat-error *ngIf="userError">Invalid edit</mat-error>
-      <button mat-button color="error">Edit</button>
-      </form>
-</mat-expansion-panel>
-<mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Tenant information
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <form class="example-form" (ngSubmit)="editTenant()" #tenantedidata="ngForm" *ngIf="tenant">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Name</mat-label>
-        <input matInput type="text" id="name" [(ngModel)]="tenant.name" name="name">
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Country</mat-label>
-        <input matInput type="text" id="country" [(ngModel)]="tenant.country" name="country">
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Max employees</mat-label>
-        <input disabled matInput type="text" id="maxEmployees" [(ngModel)]="tenant.maxEmployees" name="maxEmployees">
-      </mat-form-field>
-      <button mat-button color="error">Edit</button>
-      <mat-error *ngIf="tenantError">Invalid edit</mat-error>
-      </form>
-      <button mat-button color="error" (click)="deleteTenant()">Delete</button>
-</mat-expansion-panel>
-<mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Connect to ftp
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-list role="list" *ngFor="let ftp of ftps" >
-      <mat-accordion>
-        <mat-expansion-panel>
+<div class="row">
+  <div class="col-md-3">
+    <mat-list>
+      <div mat-subheader>Settings</div>
+      <mat-list-item>
+        <button mat-button>Personal</button>
+      </mat-list-item>
+      <mat-list-item *ngIf="visibleForAdmin">
+        <button  mat-button>Tenant</button>
+      </mat-list-item>
+      <mat-list-item *ngIf="visibleForAdmin">
+        <button mat-button>Category</button>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="col-md-9">
+    <div class="row">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>Personal</mat-card-title>
+        </mat-card-header>
+        <form class="example-form" (ngSubmit)="editProfile()" #editData="ngForm" *ngIf="user">
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Username</mat-label>
+            <input matInput type="text" id="username" [(ngModel)]="user.username" name="username">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Firstname</mat-label>
+            <input matInput type="text" id="firstname" [(ngModel)]="user.firstName" name="firstname">
+          </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Lastname</mat-label>
+            <input matInput type="text" id="lastname" [(ngModel)]="user.lastName" name="lastname">
+          </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="text" id="email" [(ngModel)]="user.email" name="email">
+          </mat-form-field>
+          <button mat-raised-button color="primary">Edit</button>
+          <mat-error *ngIf="userError">Invalid edit</mat-error>
+        </mat-card-content>
+        </form>
+      </mat-card>
+    </div>
+    <div class="row" *ngIf="visibleForAdmin">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>Tenant</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form class="example-form" (ngSubmit)="editTenant()" #tenantedidata="ngForm" *ngIf="tenant">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Name</mat-label>
+              <input matInput type="text" id="name" [(ngModel)]="tenant.name" name="name">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Country</mat-label>
+              <input matInput type="text" id="country" [(ngModel)]="tenant.country" name="country">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Max employees</mat-label>
+              <input disabled matInput type="text" id="maxEmployees" [(ngModel)]="tenant.maxEmployees" name="maxEmployees">
+            </mat-form-field>
+            <mat-error *ngIf="tenantError">Invalid edit</mat-error>
+            <button mat-raised-button color="primary">Edit</button>
+            </form>
+            <button mat-raised-button type="button" color="error" (click)="deleteTenant()">Cancel subscription</button>
+        </mat-card-content>
+        <mat-card-header>
+          <mat-card-title>Tenant users</mat-card-title>
+        </mat-card-header>
+        <mat-expansion-panel *ngFor="let usera of users">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{ftp.host}}
+              {{ usera.username }}
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <form (ngSubmit)="editFtp(ftp,ftp.id)" #ftpdata="ngForm">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Enabled</mat-label>
+            <input disabled matInput type="text" value="{{usera.enabled}}" name="enabled-{{usera.username}}">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Firstname</mat-label>
+            <input disabled matInput type="text" value="{{usera.firstName}}" name="firstName-{{usera.username}}">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Lastname</mat-label>
+            <input disabled matInput type="text" value="{{usera.lastName}}" name="lastName-{{usera.username}}">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input disabled matInput type="text" value="{{usera.email}}" name="email-{{usera.username}}">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Authorities</mat-label>
+            <mat-select 
+            [(ngModel)]="usera.authorities"
+            multiple>
+              <mat-option *ngFor="let role of authorities" [value]="role">{{role}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-button color="error">Edit</button>
+          <button mat-button type="button" color="error" (click)="deleteUser(usera.username)">Disable</button>
+        </mat-expansion-panel>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="openAdduser()">Add user</button>
+        </mat-card-actions>
+        <mat-card-content>
+          <form class="example-form" (ngSubmit)="addUser()" #adduser="ngForm" *ngIf="adduser">
             <mat-form-field appearance="outline" class="full-width">
-              <mat-label>host</mat-label>
-              <input matInput type="text" [id]="ftp.host" [(ngModel)]="ftp.host" name="fhost">
+              <mat-label>Username</mat-label>
+              <input required matInput type="text" [(ngModel)]="newUser.username" name="usernamen">
             </mat-form-field>
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>password</mat-label>
-              <input matInput type="text" [id]="ftp.id" [(ngModel)]="ftp.password" name="fpassword">
+              <input required matInput type="password" [(ngModel)]="newUser.password" name="passwordn">
             </mat-form-field>
             <mat-form-field appearance="outline" class="full-width">
-              <mat-label>folder</mat-label>
-              <input matInput type="text" [id]="ftp.folder" [(ngModel)]="ftp.folder" name="ffolder">
+              <mat-label>Firstname</mat-label>
+              <input required matInput type="text" [(ngModel)]="newUser.firstName" name="firstNamen">
             </mat-form-field>
             <mat-form-field appearance="outline" class="full-width">
-              <mat-label>port</mat-label>
-              <input matInput type="text" [id]="ftp.port" [(ngModel)]="ftp.port" name="fport">
+              <mat-label>Lastname</mat-label>
+              <input required matInput type="text" [(ngModel)]="newUser.lastName" name="lastNamen">
             </mat-form-field>
             <mat-form-field appearance="outline" class="full-width">
-              <mat-label>username</mat-label>
-              <input matInput type="text" [id]="ftp.username" [(ngModel)]="ftp.username" name="fusername">
+              <mat-label>Email</mat-label>
+              <input required matInput type="text" [(ngModel)]="newUser.email" name="emailn">
             </mat-form-field>
-            <button mat-button color="error">Edit</button>
+            <button mat-raised-button color="primary">Save</button>
           </form>
-          <button mat-button color="error" (click)="deleteFtp(ftp.id)">Delete</button>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </mat-list>
-    <button mat-button color="error" (click)="openAddFtp()">Add</button>
-    <form (ngSubmit)="addFtp()" #ftpdata="ngForm" *ngIf="addftpprop">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>host</mat-label>
-        <input matInput type="text" id="newFtphost" [(ngModel)]="newFtp.host" name="newFtphost">
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>password</mat-label>
-        <input matInput type="text" id="newFtppassword" [(ngModel)]="newFtp.password" name="newFtppassword">
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>folder</mat-label>
-        <input matInput type="text" id="newFtpfolder" [(ngModel)]="newFtp.folder" name="newFtpfolder">
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>port</mat-label>
-        <input matInput type="text" id="newFtpport" [(ngModel)]="newFtp.port" name="newFtpport">
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>username</mat-label>
-        <input matInput type="text" id="newFtpusername" [(ngModel)]="newFtp.username" name="newFtpusername">
-      </mat-form-field>
-      <button mat-button color="error">Add</button>
-    </form>
-</mat-expansion-panel>
-<mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      Tenant users
-    </mat-panel-title>
-  </mat-expansion-panel-header>
-  <mat-expansion-panel *ngFor="let usera of users">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ usera.username }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Enabled</mat-label>
-      <input disabled matInput type="text" [id]="usera.username" [(ngModel)]="usera.enabled" name="enabled">
-    </mat-form-field>
-    <mat-label appearance="outline" class="full-width" *ngFor="let role of usera.authorities">
-      {{ role.authority }}
-    </mat-label>
-    <button mat-button color="error">Edit</button>
-    <button mat-button color="error" (click)="deleteUser(usera.username)">Disable</button>
-  </mat-expansion-panel>
-</mat-expansion-panel>
-</mat-accordion>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="row" *ngIf="visibleForAdmin">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>Category</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-list role="list">
+                <mat-list-item role="listitem" *ngFor="let cat of categories">
+                  {{cat.name}}
+                  <mat-action-list>
+                    <button mat-raised-button color="error" *ngIf="cat.deletable" (click)="deleteCategory(cat.id)"> Delete </button>
+                  </mat-action-list>
+                </mat-list-item>
+              </mat-list>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="openAddCategory()">Add category</button>
+        </mat-card-actions>
+        <mat-card-content>
+          <form class="example-form" (ngSubmit)="addCategory()" #adduser="ngForm" *ngIf="opencat">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Category name</mat-label>
+              <input required matInput type="text" [(ngModel)]="newCategory" name="newCategory">
+            </mat-form-field>
+            <button mat-raised-button color="primary">Save</button>
+            </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
