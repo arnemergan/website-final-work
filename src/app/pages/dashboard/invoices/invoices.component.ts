@@ -20,11 +20,15 @@ export class InvoicesComponent implements AfterViewInit, OnInit {
   length = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
-  selectedCategory = 'default';
+  selectedCategory: string = 'default';
   username = '';
   options: Category[] = [];
   visibleForEdit: boolean = false;
   visibleForAdmin: boolean = false;
+  selectedCategoryFilter: boolean = false;
+  selectedUsernameFilter: boolean = false;
+  pageNumberOptions: Array<number> = [10,20,100];
+  selectedPageNumber: number = 20;
   displayedColumns: string[] = ['createdDate','lastModifiedDate','dueDate','vendorName', 'total', 'done','action'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -41,32 +45,44 @@ export class InvoicesComponent implements AfterViewInit, OnInit {
     this.getInvoices();
   }
 
+  changePage(): void {
+    this.getInvoices();
+  }
+
   changeAll(): void {
+    this.filters(false,false);
     this.getInvoices();
   }
   
-  changedCategory(value) :void{
-    this.getInvoicesOnCategory(value);
+  changedCategory() :void{
+    this.filters(true,false);
+    this.getInvoices();
   }
 
   changedUsername() :void{
-    this.getInvoicesOnUserName(this.username);
+    this.filters(false,true);
+    this.getInvoices();
   }
 
   toDetail(id){
     this.router.navigate(['/pages/invoice', id]);
   }
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 2000,
-    });
-  }
-
   approve(id: string, approve: boolean){
     this.invoiceService.approve(id,approve).subscribe((invoice:Invoice)=>{
       this.openSnackBar("Invoice updated",'ok')
       this.getInvoices();
+    });
+  }
+
+  private filters(categoryb: boolean,userb: boolean) : void{
+    this.selectedCategoryFilter = categoryb;
+    this.selectedUsernameFilter = userb;
+  }
+
+  private openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
     });
   }
 
@@ -82,51 +98,12 @@ export class InvoicesComponent implements AfterViewInit, OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.invoiceService.getAll(this.paginator.pageIndex,10);
-        }),
-        map(data => {
-          this.isLoadingResults = false;
-          this.isRateLimitReached = false;
-          this.length = data.totalElements;
-          return data.content;
-        }),
-        catchError(() => {
-          this.isLoadingResults = false;
-          this.isRateLimitReached = true;
-          return observableOf([]);
-        })
-      ).subscribe(data => this.dataSource =  new MatTableDataSource(data));
-  }
-
-  private getInvoicesOnCategory(category){
-    merge(this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.invoiceService.getAllOnCategory(this.paginator.pageIndex,10,category);
-        }),
-        map(data => {
-          this.isLoadingResults = false;
-          this.isRateLimitReached = false;
-          this.length = data.totalElements;
-          return data.content;
-        }),
-        catchError(() => {
-          this.isLoadingResults = false;
-          this.isRateLimitReached = true;
-          return observableOf([]);
-        })
-      ).subscribe(data => this.dataSource =  new MatTableDataSource(data));
-  }
-
-  private getInvoicesOnUserName(username){
-    merge(this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.invoiceService.getAllOnUsername(this.paginator.pageIndex,10,username);
+          if(this.selectedCategoryFilter){
+            return this.invoiceService.getAllOnCategory(this.paginator.pageIndex,this.selectedPageNumber,this.selectedCategory);
+          }else if(this.selectedUsernameFilter){
+            return this.invoiceService.getAllOnUsername(this.paginator.pageIndex,this.selectedPageNumber,this.username);
+          }
+          return this.invoiceService.getAll(this.paginator.pageIndex,this.selectedPageNumber);
         }),
         map(data => {
           this.isLoadingResults = false;

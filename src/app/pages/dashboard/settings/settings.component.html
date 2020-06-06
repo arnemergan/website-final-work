@@ -73,7 +73,11 @@
         <mat-expansion-panel *ngFor="let usera of users">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{ usera.username }}
+              {{ usera.username }} 
+              <mat-chip-list aria-label="selection" class="chips">
+                <mat-chip color="primary" *ngIf="usera.enabled" selected>enabled</mat-chip>
+                <mat-chip color="error" *ngIf="!usera.enabled" selected>disabled</mat-chip>
+              </mat-chip-list>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-form-field appearance="outline" class="full-width">
@@ -95,13 +99,13 @@
           <mat-form-field>
             <mat-label>Authorities</mat-label>
             <mat-select 
-            [(ngModel)]="usera.authorities"
+            [(ngModel)]="usera.authoritiesopt"
             multiple>
               <mat-option *ngFor="let role of authorities" [value]="role">{{role}}</mat-option>
             </mat-select>
           </mat-form-field>
-          <button mat-button color="error">Edit</button>
-          <button mat-button type="button" color="error" (click)="deleteUser(usera.username)">Disable</button>
+          <button mat-raised-button color="primary" (click)="changeAuhthorities(usera)">Change authorities</button>
+          <button mat-button type="button" color="error" (click)="enableUser(usera.username,!usera.enabled)">{{ usera.enabled?'Disable' :'Enable'}}</button>
         </mat-expansion-panel>
         <mat-card-actions>
           <button mat-raised-button color="primary" (click)="openAdduser()">Add user</button>

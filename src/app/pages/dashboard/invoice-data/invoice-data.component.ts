@@ -38,12 +38,10 @@ export class InvoiceDataComponent implements OnInit {
 
   add(data){
     this.model = data;
+    this.model.categoryName = this.model.category.name;
     formatDate(this.model.createdDate,'dd-MM-yyyy HH:mm','en-US');
     formatDate(this.model.lastModifiedDate,'dd-MM-yyyy HH:mm','en-US');
-    this.model.dueDate != "" ? this.model.dueDate = formatDate(this.model.dueDate,'yyyy-MM-dd','en-US'): this.model.dueDate = "";
-    this.model.invoiceDate != "" ? this.model.invoiceDate = formatDate(this.model.invoiceDate,'yyyy-MM-dd','en-US'): this.model.invoiceDate = "";
     this.invoiceService.getImage(this.model.filename).subscribe(response => {
-      console.log(response)
       this.imageData = URL.createObjectURL(response);
     });
   }
@@ -63,8 +61,6 @@ export class InvoiceDataComponent implements OnInit {
   }
 
   onSubmit() { 
-    this.model.dueDate = formatDate(this.model.dueDate,'dd/MM/yyyy','en-US');
-    this.model.invoiceDate = formatDate(this.model.invoiceDate,'dd/MM/yyyy','en-US');
     this.invoiceService.update(this.id,this.model).subscribe(data => {
       this.openSnackBar('Invoice updated','ok');
       this.add(data);

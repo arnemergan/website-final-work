@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment'
-import { Tenant, Authority, UserAdmin } from './models/models';
+import { Tenant, Authority, UserAdmin, UserEnable } from './models/models';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -20,7 +20,7 @@ export class UserService {
     return this.http.put<UserAdmin>(this.actionUrl + "/",authority);
   }
 
-  delete(username: String): Observable<Tenant>{
-    return this.http.delete<Tenant>(this.actionUrl + "/delete/" + username);
+  enable(enabled:UserEnable): Observable<UserAdmin>{
+    return this.http.put<UserAdmin>(this.actionUrl + "/enable", enabled);
   }
 }

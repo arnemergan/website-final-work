@@ -1,3 +1,5 @@
+import { inflate } from 'zlib';
+
 export interface Content {
     content: Invoice[];
     pageable: Pageable;
@@ -130,6 +132,7 @@ export interface Content {
     email: string;
     enabled: boolean;
     authorities: Array<AuthorityUser>;
+    authoritiesopt?: Array<string>;
   }
 
   export interface Authority{
@@ -187,4 +190,9 @@ export interface Content {
   export interface passwordChanger {
     oldPassword:string;
     newPassword:string;
+  }
+
+  export interface UserEnable{
+    enable:boolean;
+    username:string;
   }

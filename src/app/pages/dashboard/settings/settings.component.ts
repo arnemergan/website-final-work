@@ -8,6 +8,8 @@ import { FtService } from '../../../api/ft.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryService } from '../../../api/category.service';
+import { map } from 'rxjs/operators';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'ngx-settings',
@@ -30,7 +32,7 @@ export class SettingsComponent implements OnInit {
   users: Array<UserAdmin> = new Array<UserAdmin>();
   visibleForAdmin: boolean = false;
   newUser:RegisterUser;
-  authorities:Array<String> = ["ROLE_VIEW","ROLE_EDIT"];
+  authorities:Array<string> = ["ROLE_VIEW","ROLE_EDIT","ROLE_ADMIN"];
 
   constructor(public dialog: MatDialog,private router: Router,private categoryService:CategoryService,private tenantservice:TenantService, private ftService:FtService,private auth: AuthService, private userService: UserService,private _snackBar: MatSnackBar) { }
 
@@ -82,6 +84,7 @@ export class SettingsComponent implements OnInit {
       this.getFtpServers();
       this.openSnackBar('Ftp updated','ok');
     }, error => {
+            this.openSnackBar('Something went wrong','ok');
     });
   }
 
@@ -128,6 +131,7 @@ export class SettingsComponent implements OnInit {
       this.openAddFtp();
       this.openSnackBar('Ftp added','ok');
     }, error => {
+      this.openSnackBar('Something went wrong','ok');
     });
   }
   openAddFtp(): void{
@@ -139,23 +143,26 @@ export class SettingsComponent implements OnInit {
       this.getFtpServers();
       this.openSnackBar('Ftp deleted','ok');
     }, error => {
+      this.openSnackBar('Something went wrong','ok');
     });
   }
 
-  deleteUser(username){
-    this.userService.delete(username).subscribe(() => {
+  enableUser(usernameprop,enableprop){
+    this.userService.enable({username:usernameprop,enable:enableprop}).subscribe(() => {
       this.getUsers();
-      this.openSnackBar('User disabled','ok');
+      this.openSnackBar(enableprop? 'User enabled' : 'User disabled','ok');
     }, error => {
+      this.openSnackBar('Something went wrong','ok');
     });
   }
 
-  getUserAuthorities(auth:Array<AuthorityUser>){
-    const selection: Array<String> = [];
-    auth.forEach(element => {
-      selection.push(element.authority);
+  changeAuhthorities(options:UserAdmin){
+    this.userService.update({authorities:options.authoritiesopt,username:options.username}).subscribe((user:UserAdmin)=>{
+      this.openSnackBar('User roles changes','ok');
+      this.getUsers();
+    },error => {
+      this.openSnackBar('Something went wrong','ok');
     });
-    return selection;
   }
 
   private initNewUser(): void {
@@ -190,8 +197,16 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  private getUsers() :void{
-    this.userService.users().subscribe((us:Array<UserAdmin>) => {
+  private getUsers() :void {
+    this.userService.users().pipe(map((users:UserAdmin[])=> {
+      users.forEach(element => {
+        element.authoritiesopt = [];
+        element.authorities.forEach(child => {
+          element.authoritiesopt.push(child.authority);
+        });
+      });
+      return users;
+    })).subscribe((us:Array<UserAdmin>) => {
       this.users = us;
     });
   }
@@ -201,7 +216,7 @@ export class SettingsComponent implements OnInit {
       this.categories = newcategories;
     })
   }
-  openSnackBar(message: string, action: string) {
+  private openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 2000,
     });

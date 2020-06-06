@@ -4,9 +4,17 @@
   </mat-card-title>
   <form class="example-form">
     <mat-form-field class="example-full-width">
+      <mat-label>Number of invoices</mat-label>
+      <mat-select [(value)]="selectedPageNumber">
+          <mat-option *ngFor="let option of pageNumberOptions" [value]="option" (click)="changePage()">
+          {{option}}
+          </mat-option>
+      </mat-select>
+  </mat-form-field>
+    <mat-form-field class="example-full-width">
         <mat-label>Category</mat-label>
         <mat-select [(value)]="selectedCategory">
-            <mat-option *ngFor="let option of options" [value]="option.name" (click)="changedCategory(option.name)">
+            <mat-option *ngFor="let option of options" [value]="option.name" (click)="changedCategory()">
             {{option.name}}
             </mat-option>
         </mat-select>
@@ -78,5 +86,5 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </mat-card-content>
-  <mat-paginator [length]="length" [pageSize]="10"></mat-paginator>
+  <mat-paginator [length]="length" [pageSize]="selectedPageNumber"></mat-paginator>
 </mat-card>
